@@ -8,7 +8,8 @@ import java.util.regex.Matcher;
 
 public class DadJokeEventListener extends ListenerAdapter {
 
-    static Pattern pattern = Pattern.compile("i'?m .+", Pattern.CASE_INSENSITIVE);
+    static Pattern pattern = Pattern.compile("i'?m (.+)", Pattern.CASE_INSENSITIVE);
+
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
@@ -19,7 +20,7 @@ public class DadJokeEventListener extends ListenerAdapter {
         Matcher matcher = pattern.matcher(messageContent);
 
         if (matcher.find()) {
-            System.out.println(messageContent);
+            System.out.println("Hi "+ matcher.group(1) + "!");
         }
     }
 }
