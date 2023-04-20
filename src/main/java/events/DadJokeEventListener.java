@@ -20,8 +20,10 @@ public class DadJokeEventListener extends ListenerAdapter {
         Matcher matcher = pattern.matcher(messageContent);
 
         if (matcher.find()) {
-            System.out.println(matcher.group(1));
-            event.getMessage().reply("Hi "+ matcher.group(1) + "!").queue();
+            String dadJoke = "Hi "+ matcher.group(1) + "!";
+
+            // Reply to message with dad joke
+            event.getMessage().reply(dadJoke).mentionRepliedUser(false).queue();
         }
     }
 }
