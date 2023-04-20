@@ -10,10 +10,14 @@ public class DadJokeEventListener extends ListenerAdapter {
 
     static Pattern pattern = Pattern.compile("i'?m (.+)", Pattern.CASE_INSENSITIVE);
 
-
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         super.onMessageReceived(event);
+
+        // Don't do anything if message is from a bot
+        if (event.getAuthor().isBot()) {
+            return;
+        }
 
         // Get contents of message and check if it matches regex pattern
         String messageContent = event.getMessage().getContentDisplay();
