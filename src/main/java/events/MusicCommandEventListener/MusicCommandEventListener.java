@@ -79,7 +79,8 @@ public class MusicCommandEventListener extends ListenerAdapter {
     }
 
     private void skipSong(SlashCommandInteractionEvent event) {
-        System.out.println("skipping song");
+        event.reply("Skipping song").queue();
+        audioPlayerLoadHandler.getScheduler().nextTrack();
     }
 
     private void clearSongs(SlashCommandInteractionEvent event) {

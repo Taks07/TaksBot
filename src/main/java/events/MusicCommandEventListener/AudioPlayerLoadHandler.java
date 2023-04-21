@@ -37,12 +37,15 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     @Override
     public void loadFailed(final FriendlyException exception) {
         // LavaPlayer could not parse an audio source for some reason
-        scheduler.getEvent().reply("LavaPLayer ran into an error. Try again").queue();
+        scheduler.getEvent().reply("LavaPlayer ran into an error. Try again").queue();
     }
 
     public void setEvent(SlashCommandInteractionEvent event) {
         scheduler.setEvent(event);
     }
 
+    public TrackScheduler getScheduler() {
+        return scheduler;
+    }
 }
 
