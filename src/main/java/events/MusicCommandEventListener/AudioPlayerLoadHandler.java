@@ -8,11 +8,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
-    private final AudioPlayer player;
     private final TrackScheduler scheduler;
 
     public AudioPlayerLoadHandler(final AudioPlayer player) {
-        this.player = player;
         scheduler = new TrackScheduler(player);
         player.addListener(scheduler);
     }
