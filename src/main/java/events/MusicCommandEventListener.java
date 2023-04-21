@@ -67,8 +67,7 @@ public class MusicCommandEventListener extends ListenerAdapter{
 
     private void playSong(SlashCommandInteractionEvent event) {
         OptionMapping option = event.getOption("url");
-
-
+        playerManager.loadItem(option.getAsString(), new AudioPlayerLoadHandler(player));
     }
 
     private void skipSong(SlashCommandInteractionEvent event) {
