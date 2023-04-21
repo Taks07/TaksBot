@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 
 public class DadJokeEventListener extends ListenerAdapter {
 
-    static Pattern pattern = Pattern.compile("i'?m (.+)", Pattern.CASE_INSENSITIVE);
+    final Pattern pattern = Pattern.compile("i'?m (.+)", Pattern.CASE_INSENSITIVE);
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {

@@ -23,6 +23,8 @@ public class DiscordBot {
                   .build().awaitReady();
 
         // Commands
+        jda.upsertCommand("join", "Make bot join current channel").queue();
+
         jda.upsertCommand("playsong", "Play a Youtube song")
            .addOption(OptionType.STRING, "url", "Youtube URL", true)
            .queue();
