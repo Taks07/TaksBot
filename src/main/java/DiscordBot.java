@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBot {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // Get Discord bot token from .env file
         Dotenv dotenv = Dotenv.load();
         final String TOKEN = dotenv.get("TOKEN");
@@ -18,11 +18,15 @@ public class DiscordBot {
         JDA jda = jdaBuilder
                   .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES)
                   .addEventListeners(new DadJokeEventListener(), new MusicCommandEventListener())
-                  .build();
+                  .build().awaitReady();
 
         // Commands
-        jda.upsertCommand("play", "Play a Youtube song")
+        jda.upsertCommand("playsong", "Play a Youtube song")
            .addOption(OptionType.STRING, "url", "Youtube URL", true)
            .queue();
+
+        jda.upsertCommand("skipsong", "Skip current song").queue();
+
+        jda.upsertCommand("clearsongs", "Clear current playlist of songs").queue();
     }
 }
