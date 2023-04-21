@@ -1,5 +1,6 @@
 package events;
 
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -10,6 +11,7 @@ public class MusicCommandEventListener extends ListenerAdapter{
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         super.onSlashCommandInteraction(event);
 
+        // Handle different commands
         switch (event.getName()) {
             case "playsong":
                 playSong(event);
@@ -27,7 +29,15 @@ public class MusicCommandEventListener extends ListenerAdapter{
 
     private void playSong(SlashCommandInteractionEvent event) {
         OptionMapping url = event.getOption("url");
-        System.out.println(url);
+
+        // Check if sender of command is in a voice channel
+        if (event.getMember().getVoiceState().inAudioChannel()) {
+            event.reply("Enter a channel first!").mentionRepliedUser(false);
+            return;
+        } else {
+            VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
+        }
+
     }
 
     private void skipSong(SlashCommandInteractionEvent event) {
