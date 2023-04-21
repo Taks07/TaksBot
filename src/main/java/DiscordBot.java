@@ -32,5 +32,7 @@ public class DiscordBot {
         jda.upsertCommand("skipsong", "Skip current song").queue();
 
         jda.upsertCommand("clearsongs", "Clear current playlist of songs").queue();
+
+        jda.upsertCommand("leave", "Makes bot leave channel").queue();
     }
 }

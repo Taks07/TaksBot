@@ -52,16 +52,21 @@ public class MusicCommandEventListener extends ListenerAdapter {
             case "clearsongs":
                 clearSongs(event);
                 break;
+
+            case "leave":
+                leave(event);
+                break;
         }
     }
 
     private void join(SlashCommandInteractionEvent event) {
         // Check if sender of command is in a voice channel
         if (!event.getMember().getVoiceState().inAudioChannel()) {
-            event.reply("Enter a channel first!").mentionRepliedUser(false).queue();
+            event.reply("Enter a channel first!").queue();
             return;
         }
 
+        event.reply("Entering channel :)").queue();
         VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
 
         // Join channel and setup sending handler
@@ -86,5 +91,11 @@ public class MusicCommandEventListener extends ListenerAdapter {
     private void clearSongs(SlashCommandInteractionEvent event) {
         event.reply("Clearing song queue").queue();
         audioPlayerLoadHandler.getScheduler().clearQueue();
+    }
+
+    private void leave(SlashCommandInteractionEvent event) {
+        event.reply("Leaving channel :(").queue();
+        AudioManager audioManager = event.getGuild().getAudioManager();
+        audioManager.closeAudioConnection();
     }
 }
