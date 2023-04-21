@@ -18,6 +18,7 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     }
     @Override
     public void trackLoaded(final AudioTrack track) {
+        scheduler.getEvent().reply("Added " + scheduler.getTrackDetails(track) + " to the queue").queue();
         scheduler.queue(track);
     }
 
@@ -30,12 +31,13 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     @Override
     public void noMatches() {
         // LavaPlayer did not find any audio to extract
-
+        scheduler.getEvent().reply("Could not find song").queue();
     }
 
     @Override
     public void loadFailed(final FriendlyException exception) {
         // LavaPlayer could not parse an audio source for some reason
+        scheduler.getEvent().reply("LavaPLayer ran into an error. Try again").queue();
     }
 
     public void setEvent(SlashCommandInteractionEvent event) {

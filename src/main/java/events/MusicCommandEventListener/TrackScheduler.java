@@ -25,7 +25,7 @@ public class TrackScheduler extends AudioEventAdapter {
         if (!player.startTrack(track, true)) {
             trackQueue.offer(track);
         } else {
-            event.reply("Now playing - " + getTrackDetails(track)).queue();
+            event.getChannel().sendMessage("Now playing - " + getTrackDetails(track)).queue();
         }
     }
 
@@ -33,10 +33,10 @@ public class TrackScheduler extends AudioEventAdapter {
         // Starts next track no matter what
         AudioTrack currentTrack = trackQueue.poll();
         player.startTrack(currentTrack, false);
-        event.reply("Now playing - " + getTrackDetails(currentTrack)).queue();
+        event.getChannel().sendMessage("Now playing - " + getTrackDetails(track)).queue();
     }
 
-    public String getTrackDetails(AudioTrack track) {
+    public static String getTrackDetails(AudioTrack track) {
         String name = String.valueOf(track.getInfo().title);
         String link = "https://www.youtube.com/watch?v=" + track.getIdentifier();
         return String.format("[%s] (%s)", name, link);
@@ -52,5 +52,9 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void setEvent(SlashCommandInteractionEvent event) {
         this.event = event;
+    }
+
+    public SlashCommandInteractionEvent getEvent() {
+        return event;
     }
 }
