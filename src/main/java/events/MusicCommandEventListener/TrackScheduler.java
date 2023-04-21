@@ -57,4 +57,8 @@ public class TrackScheduler extends AudioEventAdapter {
     public SlashCommandInteractionEvent getEvent() {
         return event;
     }
+
+    public void clearQueue() {
+        trackQueue.clear();
+    }
 }

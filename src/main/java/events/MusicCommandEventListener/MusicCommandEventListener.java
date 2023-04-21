@@ -84,6 +84,7 @@ public class MusicCommandEventListener extends ListenerAdapter {
     }
 
     private void clearSongs(SlashCommandInteractionEvent event) {
-        System.out.println("clearing songs");
+        event.reply("Clearing song queue").queue();
+        audioPlayerLoadHandler.getScheduler().clearQueue();
     }
 }
