@@ -2,13 +2,10 @@ package events.MusicCommandEventListener;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     private final AudioPlayer player;
@@ -33,6 +30,7 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     @Override
     public void noMatches() {
         // LavaPlayer did not find any audio to extract
+
     }
 
     @Override
@@ -40,6 +38,9 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
         // LavaPlayer could not parse an audio source for some reason
     }
 
+    public void setEvent(SlashCommandInteractionEvent event) {
+        scheduler.setEvent(event);
+    }
 
 }
 

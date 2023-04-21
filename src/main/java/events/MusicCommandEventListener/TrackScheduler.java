@@ -4,13 +4,16 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
-    private BlockingQueue<AudioTrack> trackQueue;
+    private final BlockingQueue<AudioTrack> trackQueue;
+    private SlashCommandInteractionEvent event;
 
     public TrackScheduler(AudioPlayer player) {
         this.player = player;
@@ -21,12 +24,22 @@ public class TrackScheduler extends AudioEventAdapter {
         // If another track is currently playing, add track to queue
         if (!player.startTrack(track, true)) {
             trackQueue.offer(track);
+        } else {
+            event.reply("Now playing - " + getTrackDetails(track)).queue();
         }
     }
 
     public void nextTrack() {
         // Starts next track no matter what
-        player.startTrack(trackQueue.poll(), false);
+        AudioTrack currentTrack = trackQueue.poll();
+        player.startTrack(currentTrack, false);
+        event.reply("Now playing - " + getTrackDetails(currentTrack)).queue();
+    }
+
+    public String getTrackDetails(AudioTrack track) {
+        String name = String.valueOf(track.getInfo().title);
+        String link = "https://www.youtube.com/watch?v=" + track.getIdentifier();
+        return String.format("[%s] (%s)", name, link);
     }
 
     @Override
@@ -35,5 +48,9 @@ public class TrackScheduler extends AudioEventAdapter {
         if (reason.mayStartNext) {
             nextTrack();
         }
+    }
+
+    public void setEvent(SlashCommandInteractionEvent event) {
+        this.event = event;
     }
 }

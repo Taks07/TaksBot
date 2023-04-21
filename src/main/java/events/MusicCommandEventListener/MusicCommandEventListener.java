@@ -24,6 +24,7 @@ public class MusicCommandEventListener extends ListenerAdapter {
         playerManager = new DefaultAudioPlayerManager();
         playerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
         AudioSourceManagers.registerRemoteSources(playerManager);
+
         player = playerManager.createPlayer();
         audioPlayerSendHandler = new AudioPlayerSendHandler(player);
         audioPlayerLoadHandler = new AudioPlayerLoadHandler(player);
@@ -32,6 +33,7 @@ public class MusicCommandEventListener extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         super.onSlashCommandInteraction(event);
+        audioPlayerLoadHandler.setEvent(event);
 
         // Handle different commands
         switch (event.getName()) {
