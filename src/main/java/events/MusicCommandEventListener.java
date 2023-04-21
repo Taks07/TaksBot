@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
 public class MusicCommandEventListener extends ListenerAdapter{
@@ -31,13 +32,16 @@ public class MusicCommandEventListener extends ListenerAdapter{
         OptionMapping url = event.getOption("url");
 
         // Check if sender of command is in a voice channel
-        if (event.getMember().getVoiceState().inAudioChannel()) {
-            event.reply("Enter a channel first!").mentionRepliedUser(false);
+        if (!event.getMember().getVoiceState().inAudioChannel()) {
+            event.reply("Enter a channel first!").mentionRepliedUser(false).queue();
             return;
-        } else {
-            VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
         }
 
+        VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
+
+        // Join channel
+        AudioManager audioManager = event.getGuild().getAudioManager();
+        audioManager.openAudioConnection(currentChannel);
     }
 
     private void skipSong(SlashCommandInteractionEvent event) {

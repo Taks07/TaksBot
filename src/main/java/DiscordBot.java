@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class DiscordBot {
     public static void main(String[] args) throws InterruptedException {
@@ -18,6 +19,7 @@ public class DiscordBot {
         JDA jda = jdaBuilder
                   .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES)
                   .addEventListeners(new DadJokeEventListener(), new MusicCommandEventListener())
+                  .setMemberCachePolicy(MemberCachePolicy.VOICE)
                   .build().awaitReady();
 
         // Commands
