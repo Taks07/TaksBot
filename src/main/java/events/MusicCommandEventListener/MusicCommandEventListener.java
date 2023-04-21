@@ -1,4 +1,4 @@
-package events;
+package events.MusicCommandEventListener;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -12,11 +12,12 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
-public class MusicCommandEventListener extends ListenerAdapter{
+public class MusicCommandEventListener extends ListenerAdapter {
 
     final AudioPlayerManager playerManager;
     final AudioPlayer player;
     AudioPlayerSendHandler audioPlayerSendHandler;
+    AudioPlayerLoadHandler audioPlayerLoadHandler;
 
     public MusicCommandEventListener() {
         // Create AudioPlayer so bot can receive audio data
@@ -25,7 +26,9 @@ public class MusicCommandEventListener extends ListenerAdapter{
         AudioSourceManagers.registerRemoteSources(playerManager);
         player = playerManager.createPlayer();
         audioPlayerSendHandler = new AudioPlayerSendHandler(player);
+        audioPlayerLoadHandler = new AudioPlayerLoadHandler(player);
     }
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         super.onSlashCommandInteraction(event);
@@ -66,8 +69,11 @@ public class MusicCommandEventListener extends ListenerAdapter{
     }
 
     private void playSong(SlashCommandInteractionEvent event) {
+        // Make bot join current channel
+        join(event);
+
         OptionMapping option = event.getOption("url");
-        playerManager.loadItem(option.getAsString(), new AudioPlayerLoadHandler(player));
+        playerManager.loadItem(option.getAsString(), audioPlayerLoadHandler);
     }
 
     private void skipSong(SlashCommandInteractionEvent event) {

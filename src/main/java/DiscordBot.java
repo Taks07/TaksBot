@@ -1,5 +1,5 @@
 import events.DadJokeEventListener;
-import events.MusicCommandEventListener;
+import events.MusicCommandEventListener.MusicCommandEventListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

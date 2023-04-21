@@ -1,19 +1,27 @@
-package events;
+package events.MusicCommandEventListener;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
-public class AudioPlayerLoadHandler implements AudioLoadResultHandler {
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     private final AudioPlayer player;
+    private final TrackScheduler scheduler;
+
     public AudioPlayerLoadHandler(final AudioPlayer player) {
         this.player = player;
+        scheduler = new TrackScheduler(player);
+        player.addListener(scheduler);
     }
     @Override
     public void trackLoaded(final AudioTrack track) {
-        player.playTrack(track);
+        scheduler.queue(track);
     }
 
     // Will add functionality later
@@ -31,5 +39,7 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler {
     public void loadFailed(final FriendlyException exception) {
         // LavaPlayer could not parse an audio source for some reason
     }
+
+
 }
 
