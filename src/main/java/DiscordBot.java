@@ -1,4 +1,5 @@
 import events.DadJokeEventListener;
+import events.MusicCommandEventListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -16,10 +17,10 @@ public class DiscordBot {
 
         JDA jda = jdaBuilder
                   .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES)
-                  .addEventListeners(new DadJokeEventListener())
+                  .addEventListeners(new DadJokeEventListener(), new MusicCommandEventListener())
                   .build();
 
-        // Commmands
+        // Commands
         jda.upsertCommand("play", "Play a Youtube song")
            .addOption(OptionType.STRING, "url", "Youtube URL", true)
            .queue();
