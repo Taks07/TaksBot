@@ -42,6 +42,7 @@ public class MusicCommandEventListener extends ListenerAdapter {
             case "playsong" -> playSong(event);
             case "skipsong" -> skipSong(event);
             case "clearsongs" -> clearSongs(event);
+            case "shufflesongs" -> shuffleSongs(event);
             case "leave" -> leave(event);
         }
     }
@@ -80,6 +81,11 @@ public class MusicCommandEventListener extends ListenerAdapter {
     private void clearSongs(SlashCommandInteractionEvent event) {
         event.reply("Clearing song queue").queue();
         audioPlayerLoadHandler.getScheduler().clearQueue();
+    }
+
+    private void shuffleSongs(SlashCommandInteractionEvent event) {
+        event.reply("Shuffling songs").queue();
+        audioPlayerLoadHandler.getScheduler().shuffleTracks();
     }
 
     private void leave(SlashCommandInteractionEvent event) {

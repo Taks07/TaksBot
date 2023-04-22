@@ -7,6 +7,11 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -33,7 +38,9 @@ public class TrackScheduler extends AudioEventAdapter {
         // Starts next track no matter what
         AudioTrack currentTrack = trackQueue.poll();
 
+        // Queue is empty
         if (currentTrack == null) {
+            player.stopTrack();
             return;
         }
 
@@ -45,7 +52,7 @@ public class TrackScheduler extends AudioEventAdapter {
     public static String getTrackDetails(AudioTrack track) {
         String name = String.valueOf(track.getInfo().title);
         String link = "https://www.youtube.com/watch?v=" + track.getIdentifier();
-        return String.format("[%s] (%s)", name, link);
+        return String.format("[%s](%s)", name, link);
     }
 
     @Override
@@ -69,6 +76,20 @@ public class TrackScheduler extends AudioEventAdapter {
 
         event.getChannel().sendMessage(sb.toString()).queue();
     }
+
+    public void shuffleTracks() {
+        // Create temporary ArrayList to shuffle
+        ArrayList<AudioTrack> tempQueue = new ArrayList<>();
+        trackQueue.drainTo(tempQueue);
+        Collections.shuffle(tempQueue);
+
+        // Move shuffled ArrayList to trackQueue
+        trackQueue.clear();
+        trackQueue.addAll(tempQueue);
+
+        outputQueue();
+    }
+
     public void setEvent(SlashCommandInteractionEvent event) {
         this.event = event;
     }

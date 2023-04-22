@@ -25,13 +25,15 @@ public class DiscordBot {
         // Commands
         jda.upsertCommand("join", "Make bot join current channel").queue();
 
-        jda.upsertCommand("playsong", "Play a Youtube song")
-           .addOption(OptionType.STRING, "url", "Youtube URL", true)
+        jda.upsertCommand("playsong", "Play a song")
+           .addOption(OptionType.STRING, "url", "URL of song", true)
            .queue();
 
         jda.upsertCommand("skipsong", "Skip current song").queue();
 
         jda.upsertCommand("clearsongs", "Clear current playlist of songs").queue();
+
+        jda.upsertCommand("shufflesongs", "Shuffles current playlist of songs").queue();
 
         jda.upsertCommand("leave", "Makes bot leave channel").queue();
     }
