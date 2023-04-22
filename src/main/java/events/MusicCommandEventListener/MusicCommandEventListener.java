@@ -72,6 +72,7 @@ public class MusicCommandEventListener extends ListenerAdapter {
         // Join channel and setup sending handler
         AudioManager audioManager = event.getGuild().getAudioManager();
         audioManager.openAudioConnection(currentChannel);
+        audioManager.setSelfDeafened(true);
         audioManager.setSendingHandler(audioPlayerSendHandler);
     }
 

@@ -2,7 +2,6 @@ package events;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import org.jetbrains.annotations.NotNull;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -25,6 +24,12 @@ public class DadJokeEventListener extends ListenerAdapter {
         Matcher matcher = pattern.matcher(messageContent);
 
         if (matcher.find()) {
+            // Check if the dad joke is name of bot
+            if (matcher.group(2).equalsIgnoreCase(event.getJDA().getSelfUser().getName())) {
+                event.getMessage().reply("That's my name! >:(").mentionRepliedUser(false).queue();
+                return;
+            }
+
             String dadJoke = "Hi "+ matcher.group(2) + "!";
 
             // Reply to message with dad joke
