@@ -37,25 +37,11 @@ public class MusicCommandEventListener extends ListenerAdapter {
 
         // Handle different commands
         switch (event.getName()) {
-            case "join":
-                join(event);
-                break;
-
-            case "playsong":
-                playSong(event);
-                break;
-
-            case "skipsong":
-                skipSong(event);
-                break;
-
-            case "clearsongs":
-                clearSongs(event);
-                break;
-
-            case "leave":
-                leave(event);
-                break;
+            case "join" -> join(event);
+            case "playsong" -> playSong(event);
+            case "skipsong" -> skipSong(event);
+            case "clearsongs" -> clearSongs(event);
+            case "leave" -> leave(event);
         }
     }
 

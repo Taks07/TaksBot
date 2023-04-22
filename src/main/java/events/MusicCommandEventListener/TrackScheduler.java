@@ -32,6 +32,12 @@ public class TrackScheduler extends AudioEventAdapter {
     public void nextTrack() {
         // Starts next track no matter what
         AudioTrack currentTrack = trackQueue.poll();
+
+        if (currentTrack == null) {
+            event.getChannel().sendMessage("Queue is empty!").queue();
+            return;
+        }
+
         player.startTrack(currentTrack, false);
         event.getChannel().sendMessage("Now playing - " + getTrackDetails(currentTrack)).queue();
     }

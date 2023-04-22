@@ -23,6 +23,7 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     @Override
     public void playlistLoaded(final AudioPlaylist playlist) {
         // LavaPlayer found multiple AudioTracks from some playlist
+        scheduler.getEvent().reply("Added playlist " + playlist.getName()).queue();
         for (AudioTrack track: playlist.getTracks()){
             scheduler.queue(track);
         }
