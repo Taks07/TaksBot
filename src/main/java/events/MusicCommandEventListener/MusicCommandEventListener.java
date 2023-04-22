@@ -5,6 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -52,7 +53,6 @@ public class MusicCommandEventListener extends ListenerAdapter {
             return;
         }
 
-        event.reply("Entering channel :)").queue();
         VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
 
         // Join channel and setup sending handler
@@ -63,8 +63,10 @@ public class MusicCommandEventListener extends ListenerAdapter {
     }
 
     private void playSong(SlashCommandInteractionEvent event) {
-        // Make bot join current channel
-        join(event);
+        // Make bot join current channel if
+        if (!inSameChannel(event.getGuild().getMember(event.getJDA().getSelfUser()), event.getMember())) {
+            join(event);
+        }
 
         OptionMapping option = event.getOption("url");
         playerManager.loadItem(option.getAsString(), audioPlayerLoadHandler);
@@ -84,5 +86,9 @@ public class MusicCommandEventListener extends ListenerAdapter {
         event.reply("Leaving channel :(").queue();
         AudioManager audioManager = event.getGuild().getAudioManager();
         audioManager.closeAudioConnection();
+    }
+
+    private boolean inSameChannel(Member member1, Member member2){
+        return member1.getVoiceState().getChannel() == member2.getVoiceState().getChannel();
     }
 }

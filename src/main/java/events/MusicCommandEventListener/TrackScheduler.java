@@ -34,12 +34,12 @@ public class TrackScheduler extends AudioEventAdapter {
         AudioTrack currentTrack = trackQueue.poll();
 
         if (currentTrack == null) {
-            event.getChannel().sendMessage("Queue is empty!").queue();
             return;
         }
 
         player.startTrack(currentTrack, false);
         event.getChannel().sendMessage("Now playing - " + getTrackDetails(currentTrack)).queue();
+        outputQueue();
     }
 
     public static String getTrackDetails(AudioTrack track) {
@@ -56,6 +56,19 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    public void outputQueue() {
+        StringBuilder sb = new StringBuilder("```Current Queue:\n");
+        AudioTrack track;
+
+        // Loop through current queue, and add track names
+        for (int i = 0; i < trackQueue.size(); i++) {
+            track = (AudioTrack) trackQueue.toArray()[i];
+            sb.append(String.format("%s. %s\n", String.valueOf(i + 1), track.getInfo().title));
+        }
+        sb.append("```");
+
+        event.getChannel().sendMessage(sb.toString()).queue();
+    }
     public void setEvent(SlashCommandInteractionEvent event) {
         this.event = event;
     }
@@ -66,5 +79,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void clearQueue() {
         trackQueue.clear();
+        outputQueue();
     }
 }

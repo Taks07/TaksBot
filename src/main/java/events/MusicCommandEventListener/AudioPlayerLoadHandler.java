@@ -18,6 +18,8 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
     public void trackLoaded(final AudioTrack track) {
         scheduler.getEvent().reply("Added " + scheduler.getTrackDetails(track) + " to the queue").queue();
         scheduler.queue(track);
+
+        scheduler.outputQueue();
     }
 
     @Override
@@ -27,6 +29,7 @@ public class AudioPlayerLoadHandler implements AudioLoadResultHandler  {
         for (AudioTrack track: playlist.getTracks()){
             scheduler.queue(track);
         }
+        scheduler.outputQueue();
     }
 
     @Override
