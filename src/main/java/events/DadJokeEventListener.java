@@ -25,7 +25,7 @@ public class DadJokeEventListener extends ListenerAdapter {
 
         if (matcher.find()) {
             // Check if the dad joke is name of bot
-            if (matcher.group(2).equalsIgnoreCase(event.getJDA().getSelfUser().getName())) {
+            if (matcher.group(5).equalsIgnoreCase(event.getJDA().getSelfUser().getName())) {
                 event.getMessage().reply("That's my name! >:(").mentionRepliedUser(false).queue();
                 return;
             }
