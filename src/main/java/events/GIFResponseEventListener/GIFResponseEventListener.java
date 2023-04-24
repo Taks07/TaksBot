@@ -13,11 +13,11 @@ import java.util.Scanner;
 public class GIFResponseEventListener extends ListenerAdapter {
 
     Map<String,String> gifMap;
-    public GIFResponseEventListener {
+    public GIFResponseEventListener() {
         gifMap = new HashMap<String,String>();
 
         try {
-            File myFile = new File("keywordtogif.txt");
+            File myFile = new File("src/main/java/events/GIFResponseEventListener/keywordtogif.txt");
             Scanner myReader = new Scanner(myFile);
 
             // Read through text file and add key-value pairs to map
@@ -33,15 +33,23 @@ public class GIFResponseEventListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+
+        if (event.getAuthor().isBot()) {
+            return;
+        }
+
         String message = event.getMessage().getContentDisplay();
         String keyword = checkForKeyword(message);
 
+        if (keyword != null) {
+            event.getMessage().reply(gifMap.get(keyword)).queue();
+        }
     }
 
     private String checkForKeyword(String message) {
         // Loop through keys of map to see if message contains a key
         for (String keyword: gifMap.keySet()) {
-            if message.toLowerCase().contains(keyword.toLowerCase()) {
+            if (message.toLowerCase().contains(keyword.toLowerCase())) {
                 return keyword;
             }
         }
