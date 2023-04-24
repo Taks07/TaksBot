@@ -25,6 +25,7 @@ public class GIFResponseEventListener extends ListenerAdapter {
                 String[] pair = myReader.nextLine().split(",");
                 gifMap.put(pair[0], pair[1]);
             }
+            myReader.close();
 
         } catch (FileNotFoundException e) {
             System.out.println("keywordtogif.txt not found");
