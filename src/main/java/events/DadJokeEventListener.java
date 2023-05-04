@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 
 public class DadJokeEventListener extends ListenerAdapter {
 
-    final Pattern pattern = Pattern.compile("(\s|^)((i'?m)|(i am))(( \\S+){1,5})(/.|$)", Pattern.CASE_INSENSITIVE);
+    final Pattern pattern = Pattern.compile("(\s|^)((i'?m)|(i am))(( \\S+){1,5})(\\.|$)", Pattern.CASE_INSENSITIVE);
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
