@@ -1,6 +1,5 @@
 package events.GIFResponseEventListener;
-
-import events.MessageModifier;
+import events.DeleteBotMessageListener;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -35,8 +34,6 @@ public class GIFResponseEventListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        MessageModifier modifier = new MessageModifier();
-
         if (event.getAuthor().isBot()) {
             return;
         }
@@ -45,7 +42,7 @@ public class GIFResponseEventListener extends ListenerAdapter {
         String keyword = checkForKeyword(message);
 
         if (keyword != null) {
-            modifier.addDeleteButton(event.getMessage().reply(gifMap.get(keyword))).queue();
+            DeleteBotMessageListener.addDeleteButton(event.getMessage().reply(gifMap.get(keyword))).queue();
         }
     }
 

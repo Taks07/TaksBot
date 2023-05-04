@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
-public class MessageModifier extends ListenerAdapter {
+public class DeleteBotMessageListener extends ListenerAdapter {
     static Emoji deleteEmoji = Emoji.fromUnicode("🗑️");
 
     @Override
