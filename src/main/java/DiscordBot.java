@@ -1,5 +1,6 @@
 import events.DadJokeEventListener;
 import events.GIFResponseEventListener.GIFResponseEventListener;
+import events.MessageModifier;
 import events.MusicCommandEventListener.MusicCommandEventListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
@@ -19,7 +20,7 @@ public class DiscordBot {
 
         JDA jda = jdaBuilder
                   .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES)
-                  .addEventListeners(new DadJokeEventListener(), new MusicCommandEventListener(), new GIFResponseEventListener())
+                  .addEventListeners(new DadJokeEventListener(), new MusicCommandEventListener(), new GIFResponseEventListener(), new MessageModifier())
                   .setMemberCachePolicy(MemberCachePolicy.VOICE)
                   .build().awaitReady();
 
