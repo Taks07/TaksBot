@@ -13,12 +13,18 @@ public class DeleteBotMessageListener extends ListenerAdapter {
     public void onMessageReactionAdd(MessageReactionAddEvent event) {
 
         event.getChannel().retrieveMessageById(event.getMessageId()).queue(message -> {
-            boolean isBotMessage = message.getAuthor() == event.getJDA().getSelfUser();
-            boolean isNotOwnReaction = event.getUser() != event.getJDA().getSelfUser();
+            // Check if reaction is on own message, is not own reaction, is the deleteEmoji, and was reacted by user being replied to
+            boolean isBotMessage = message.getAuthor().equals(event.getJDA().getSelfUser());
+            boolean isNotOwnReaction = !event.getUser().equals(event.getJDA().getSelfUser());
             boolean isDeleteEmoji = event.getReaction().getEmoji().equals(deleteEmoji);
+            boolean isReferencedUser;
 
             if (isBotMessage & isNotOwnReaction & isDeleteEmoji) {
-                message.delete().queue();
+                isReferencedUser = message.getMessageReference().getMessage().getAuthor().equals(event.getUser());
+
+                if (isReferencedUser) {
+                    message.delete().queue();
+                }
             }
         });
     }
